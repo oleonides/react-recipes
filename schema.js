@@ -1,32 +1,23 @@
-exports.typeDefs = `
+const { ApolloServer } = require("apollo-server-express");
 
-type Recipe {
-    _id: ID
-    name: String!
-    imageUrl: String
-    category: String!
-    description: String!
-    instructions: String!
-    createdDate: String
-    likes: Int
-    username: String
-  }
+const Recipe = require("./models/Recipe");
+const User = require("./models/User");
 
-type User {
-    _id: ID
-    username: String! @unique
-    password: String!
-    email: String!
-    joinDate: String
-    favorites: [Recipe]
-  }
+const { typeDefs } = require("./type-defs");
+const { resolvers } = require("./resolvers");
 
-  type Query {
-    getAllRecipes: [Recipe]
-  }
-
-  type Mutation {
-    addRecipe(name: String!, description: String!, category: String!, instructions: String!, username: String): Recipe
-  }
-
-  `;
+//create schema
+exports.schema = new ApolloServer({
+  typeDefs,
+  resolvers,
+  context: {
+    Recipe,
+    User,
+  },
+  playground: {
+    endpoint: `http://localhost:5000/graphql`,
+    settings: {
+      "editor.theme": "light",
+    },
+  },
+});

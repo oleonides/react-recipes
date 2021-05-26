@@ -1,26 +1,30 @@
-const express = require("express");
+const express = require('express');
 
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
 const { schema } = require('./schema');
 
 // const bodyParser = require("body-parser");
 
-const cors = require("cors");
+const cors = require('cors');
 
-require("dotenv").config({ path: ".env" });
+require('dotenv').config({ path: '.env' });
 
 //connect to DB
 mongoose
-  .connect(process.env.MONGO_URI, { useNewUrlParser: true })
-  .then(() => console.log("DB connected"))
-  .catch((err) => console.log(err));
+  .connect(process.env.MONGO_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useCreateIndex: true,
+  })
+  .then(() => console.log('DB connected'))
+  .catch(err => console.log(err));
 
 //Initialize application
 const app = express();
 
 const corsOptions = {
-  origin: "http://localhost:3000",
+  origin: 'http://localhost:3000',
   credentials: true,
 };
 
